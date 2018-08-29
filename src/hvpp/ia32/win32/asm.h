@@ -106,6 +106,7 @@ unsigned char       ia32_asm_inv_vpid           (_In_ unsigned long type, _In_ v
 #define             ia32_asm_popcnt             __popcnt64
 #define             ia32_asm_clear_ts           __clts
 #define             ia32_asm_wb_invd            __wbinvd
+#define             ia32_asm_inv_page           __invlpg
 
 #define             ia32_asm_vmx_on             __vmx_on
 #define             ia32_asm_vmx_off            __vmx_off

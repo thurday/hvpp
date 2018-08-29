@@ -137,7 +137,7 @@ void vmexit_handler::handle_task_switch(vcpu_t& vp)                             
 void vmexit_handler::handle_execute_getsec(vcpu_t& vp)                          noexcept { handle_fallback(vp); }
 void vmexit_handler::handle_execute_hlt(vcpu_t& vp)                             noexcept { handle_fallback(vp); }
 // void vmexit_handler::handle_execute_invd(vcpu_t& vp)                            noexcept { handle_fallback(vp); }
-void vmexit_handler::handle_execute_invlpg(vcpu_t& vp)                          noexcept { handle_fallback(vp); }
+// void vmexit_handler::handle_execute_invlpg(vcpu_t& vp)                          noexcept { handle_fallback(vp); }
 void vmexit_handler::handle_execute_rdpmc(vcpu_t& vp)                           noexcept { handle_fallback(vp); }
 // void vmexit_handler::handle_execute_rdtsc(vcpu_t& vp)                           noexcept { handle_fallback(vp); }
 void vmexit_handler::handle_execute_rsm_in_smm(vcpu_t& vp)                      noexcept { handle_fallback(vp); }
@@ -317,6 +317,13 @@ void vmexit_handler::handle_execute_invd(vcpu_t& vp) noexcept
   //
 
   ia32_asm_wb_invd();
+}
+
+void vmexit_handler::handle_execute_invlpg(vcpu_t& vp) noexcept
+{
+  auto linear_address = vp.exit_qualification().linear_address;
+
+  vmx::invvpid_individual_address(vp.vcpu_id(), linear_address);
 }
 
 void vmexit_handler::handle_execute_rdtsc(vcpu_t& vp) noexcept
